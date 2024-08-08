@@ -58,7 +58,9 @@ jobs:
           GOOS=${GOOSARCH%/*}
           GOARCH=${GOOSARCH#*/}
           BINARY_NAME=${{github.repository}}-$GOOS-$GOARCH
+          ARTIFACT_NAME=${BINARY_NAME#*/}
           echo "BINARY_NAME=$BINARY_NAME" >> $GITHUB_ENV
+          echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $GITHUB_ENV
           echo "GOOS=$GOOS" >> $GITHUB_ENV
           echo "GOARCH=$GOARCH" >> $GITHUB_ENV
       - name: Gather GitHub SHA
@@ -71,5 +73,5 @@ jobs:
       - name: Upload Build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{env.BINARY_NAME#*/}}
+          name: ${{env.ARTIFACT_NAME}}
           path: ${{env.BINARY_NAME}}
