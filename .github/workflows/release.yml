@@ -74,3 +74,5 @@ jobs:
         with:
           draft: true
           files: ${{env.BINARY_NAME}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
