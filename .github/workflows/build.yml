@@ -64,12 +64,12 @@ jobs:
       - name: Gather GitHub SHA
         run: |
           echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "BRANCH=$GITHUB_HEAD_REF" >> $GITHUB_ENV
+          echo "BRANCH=$GITHUB_REF_NAME" >> $GITHUB_ENV
       - name: Build
         run: |
           go build -ldflags="-w -s -X github.com/marsskop/lightkeytool/cmd.version=$BRANCH-$SHORT_SHA" -o "$BINARY_NAME"
       - name: Upload Build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: $BINARY_NAME
-          path: $BINARY_NAME
+          name: ${{ env.BINARY_NAME }}
+          path: ${{ env.BINARY_NAME }}
