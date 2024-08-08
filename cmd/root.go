@@ -8,11 +8,14 @@ import (
 )
 
 var (
+	// version will be filled at compile time.
+	version = "N/A"
 	Verbose bool
 	RootCmd = &cobra.Command{
-		Use:   "lightkeytool",
-		Short: "LightKeytool is a no-Java version of keytool",
-		Long:  "A lightweight CLI implementation of keytool that requires no Java JDK to be installed.",
+		Use:     "lightkeytool",
+		Version: version,
+		Short:   "LightKeytool is a no-Java version of keytool",
+		Long:    "A lightweight CLI implementation of keytool that requires no Java JDK to be installed.",
 	}
 )
 
