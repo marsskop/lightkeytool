@@ -47,10 +47,22 @@ func init() {
 	importkeystoreCmd.Flags().StringVar(&destalias, "destalias", "", "destination entry alias")
 	importkeystoreCmd.Flags().StringVar(&srckeypass, "srckeypass", "", "source key password")
 	importkeystoreCmd.Flags().StringVar(&destkeypass, "destkeypass", "", "destination key password")
-	importkeystoreCmd.MarkFlagRequired("srckeystore")
-	importkeystoreCmd.MarkFlagRequired("destkeystore")
-	importkeystoreCmd.MarkFlagRequired("srcstorepass")
-	importkeystoreCmd.MarkFlagRequired("deststorepass")
+	err := importkeystoreCmd.MarkFlagRequired("srckeystore")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = importkeystoreCmd.MarkFlagRequired("destkeystore")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = importkeystoreCmd.MarkFlagRequired("srcstorepass")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = importkeystoreCmd.MarkFlagRequired("deststorepass")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func importKeystore(cmd *cobra.Command, args []string) error {

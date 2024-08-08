@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/marsskop/lightkeytool/internal/manager"
 	"github.com/spf13/cobra"
 )
@@ -36,8 +38,14 @@ func init() {
 	exportcertCmd.Flags().StringVar(&storepass, "storepass", "", "keystore password")
 	exportcertCmd.Flags().BoolVar(&rfc, "rfc", false, "output in RFC style")
 	exportcertCmd.Flags().StringVar(&file, "file", "", "output file name")
-	exportcertCmd.MarkFlagRequired("keystore")
-	exportcertCmd.MarkFlagRequired("storepass")
+	err := exportcertCmd.MarkFlagRequired("keystore")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = exportcertCmd.MarkFlagRequired("storepass")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func exportCert(cmd *cobra.Command, args []string) error {
