@@ -12,12 +12,6 @@ import (
 )
 
 var (
-	keystore      string
-	storetype     string
-	alias         string
-	storepass     string
-	rfc           bool
-	file          string
 	exportcertCmd = &cobra.Command{
 		Use:   "exportcert",
 		Short: "Export data",

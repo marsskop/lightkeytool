@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/pavlo-v-chernykh/keystore-go/v4"
+	"github.com/marsskop/keystore-go"
 	"software.sslmate.com/src/go-pkcs12"
 )
 
@@ -36,7 +36,6 @@ func ReadKeyStoreJKS(filename string, password []byte) (ks keystore.KeyStore, er
 	if err != nil {
 		return ks, err
 	}
-
 	defer func() {
 		err = f.Close()
 	}()
