@@ -9,16 +9,6 @@ import (
 )
 
 var (
-	srckeystore       string
-	destkeystore      string
-	srcstoretype      string
-	deststoretype     string
-	srcstorepass      string
-	deststorepass     string
-	srcalias          string
-	destalias         string
-	srckeypass        string
-	destkeypass       string
 	importkeystoreCmd = &cobra.Command{
 		Use:   "importkeystore",
 		Short: "Import contents from another keystore",
