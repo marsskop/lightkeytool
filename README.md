@@ -6,7 +6,7 @@ A lightweight GO implementation of Java [keytool](https://docs.oracle.com/javase
 1. Download the latest version of the application from the [releases](https://github.com/marsskop/lightkeytool/releases) page.
 2. Rename the downloaded file to `lightkeytool`.
 3. Add execute permissions to the binary. E.g., on Linux and Mac: `chmod u+x lightkeytool`.
-4. Put the binary in you `PATH`. E.g., on Linux and Mac: `mv lightkeytool /usr/local/bin/lightkeytool`.
+4. Put the binary in your `PATH`. E.g., on Linux and Mac: `mv lightkeytool /usr/local/bin/lightkeytool`.
 
 ## Help Output
 ```bash
