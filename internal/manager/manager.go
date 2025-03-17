@@ -1,7 +1,6 @@
 package manager
 
 import (
-	"crypto"
 	"crypto/x509"
 	"fmt"
 	"io"
@@ -18,12 +17,12 @@ func Zeroing(buf []byte) {
 	}
 }
 
-func ReadKeyStore(filename string, password []byte, alias string, storeType string) (keystore.KeyStore, error) {
+func ReadKeyStore(filename string, password []byte, storeType string) (keystore.KeyStore, error) {
 	switch storeType {
 	case "JKS":
 		return ReadKeyStoreJKS(filename, password)
 	case "PKCS12":
-		return ReadKeyStorePKCS12(filename, password, alias)
+		return ReadKeyStorePKCS12(filename, password)
 	default:
 		return keystore.New(), nil
 	}
@@ -47,12 +46,8 @@ func ReadKeyStoreJKS(filename string, password []byte) (ks keystore.KeyStore, er
 	return ks, err
 }
 
-func ReadKeyStorePKCS12(filename string, password []byte, alias string) (ks keystore.KeyStore, err error) {
+func ReadKeyStorePKCS12(filename string, password []byte) (ks keystore.KeyStore, err error) {
 	ks = keystore.New()
-	// empty alias means all entries; accepted PKCS12 keystore only has one entry
-	if alias == "" {
-		alias = "all"
-	}
 	f, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return ks, err
@@ -65,42 +60,35 @@ func ReadKeyStorePKCS12(filename string, password []byte, alias string) (ks keys
 		return ks, err
 	}
 
-	privkeyInterface, cert, cacerts, err := pkcs12.DecodeChain(p12, string(password))
+	chains, err := pkcs12.DecodeChains(p12, string(password))
 	if err != nil {
 		return ks, err
 	}
-	pk, ok := privkeyInterface.(crypto.PrivateKey)
-	if !ok {
-		return ks, fmt.Errorf("failed to get private key")
-	}
-	keybytes, err := x509.MarshalPKCS8PrivateKey(pk)
-	if err != nil {
-		return ks, err
-	}
-	certChain := []keystore.Certificate{
-		{
+
+	for _, chain := range chains {
+		alias := chain.FriendlyName
+		keybytes, err := x509.MarshalPKCS8PrivateKey(chain.PrivateKey)
+		if err != nil {
+			return ks, err
+		}
+		certChain := []keystore.Certificate{{
 			Type:    "X509",
-			Content: cert.Raw,
-		},
-	}
-	for _, c := range cacerts {
-		certChain = append(certChain, keystore.Certificate{
-			Type:    "X509",
-			Content: c.Raw,
-		})
-	}
-	pkeIn := keystore.PrivateKeyEntry{
-		CreationTime: time.Now(),
-		PrivateKey:   keybytes,
-		CertificateChain: []keystore.Certificate{
-			{
+			Content: chain.LeafCertificate.Raw,
+		}}
+		for _, c := range chain.CACertificates {
+			certChain = append(certChain, keystore.Certificate{
 				Type:    "X509",
-				Content: cert.Raw,
-			},
-		},
-	}
-	if err = ks.SetPrivateKeyEntry(alias, pkeIn, password); err != nil { // keypass is the same as storepass for PKCS12
-		return ks, err
+				Content: c.Raw,
+			})
+		}
+		pkeIn := keystore.PrivateKeyEntry{
+			CreationTime:     time.Now(),
+			PrivateKey:       keybytes,
+			CertificateChain: certChain,
+		}
+		if err = ks.SetPrivateKeyEntry(alias, pkeIn, password); err != nil { // keypass is the same as storepass for PKCS12
+			return ks, err
+		}
 	}
 	return ks, err
 }
