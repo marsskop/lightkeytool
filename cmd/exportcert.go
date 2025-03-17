@@ -52,7 +52,7 @@ func exportCert(cmd *cobra.Command, args []string) error {
 	defer manager.Zeroing(bStorePass)
 
 	// process keystore
-	ks, err := manager.ReadKeyStore(keystore, bStorePass, alias, storetype)
+	ks, err := manager.ReadKeyStore(keystore, bStorePass, storetype)
 	if err != nil {
 		return err
 	}
