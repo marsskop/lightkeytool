@@ -12,12 +12,6 @@ import (
 )
 
 var (
-	keystore      string
-	storetype     string
-	alias         string
-	storepass     string
-	rfc           bool
-	file          string
 	exportcertCmd = &cobra.Command{
 		Use:   "exportcert",
 		Short: "Export data",
@@ -58,7 +52,7 @@ func exportCert(cmd *cobra.Command, args []string) error {
 	defer manager.Zeroing(bStorePass)
 
 	// process keystore
-	ks, err := manager.ReadKeyStore(keystore, bStorePass, alias, storetype)
+	ks, err := manager.ReadKeyStore(keystore, bStorePass, storetype)
 	if err != nil {
 		return err
 	}

@@ -9,16 +9,6 @@ import (
 )
 
 var (
-	srckeystore       string
-	destkeystore      string
-	srcstoretype      string
-	deststoretype     string
-	srcstorepass      string
-	deststorepass     string
-	srcalias          string
-	destalias         string
-	srckeypass        string
-	destkeypass       string
 	importkeystoreCmd = &cobra.Command{
 		Use:   "importkeystore",
 		Short: "Import contents from another keystore",
@@ -102,12 +92,12 @@ func importKeystore(cmd *cobra.Command, args []string) error {
 	defer manager.Zeroing(bDestKeyPass)
 
 	// process source keystore
-	srcKs, err := manager.ReadKeyStore(srckeystore, bSrcStorePass, srcalias, srcstoretype)
+	srcKs, err := manager.ReadKeyStore(srckeystore, bSrcStorePass, srcstoretype)
 	if err != nil {
 		return err
 	}
 	// process destination keystore
-	destKs, err := manager.ReadKeyStore(destkeystore, bDestStorePass, destalias, deststoretype)
+	destKs, err := manager.ReadKeyStore(destkeystore, bDestStorePass, deststoretype)
 	if err != nil {
 		return err
 	}
