@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/marsskop/go-pkcs12"
 	"github.com/marsskop/keystore-go"
-	"software.sslmate.com/src/go-pkcs12"
 )
 
 func Zeroing(buf []byte) {
