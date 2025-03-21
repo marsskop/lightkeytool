@@ -108,7 +108,10 @@ func importCert(cmd *cobra.Command, args []string) error {
 			return err
 		}
 		pke.CertificateChain = append(pke.CertificateChain, manager.CreateCertificate(blockBytes))
-		ks.SetPrivateKeyEntry(alias, pke, bKeyPass)
+		err = ks.SetPrivateKeyEntry(alias, pke, bKeyPass)
+		if err != nil {
+			return err
+		}
 	} else {
 		// if the alias doesn't point to any entry, it assumes it creates a trusted certificate entry by that alias (which cannot be PKC7)
 		entry := manager.CreateTrustedCertificateEntry(time.Now(), blockBytes)
