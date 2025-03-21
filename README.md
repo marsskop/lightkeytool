@@ -22,6 +22,7 @@ Available Commands:
   completion     Generate the autocompletion script for the specified shell
   exportcert     Export data
   help           Help about any command
+  importcert     Import a certificate/certificate chain to a keystore
   importkeystore Import contents from another keystore
 
 Flags:

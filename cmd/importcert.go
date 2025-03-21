@@ -20,11 +20,11 @@ var (
 		Short: "Import a certificate/certificate chain to a keystore",
 		Long: `Reads the certificate or certificate chain (where the latter is supplied in a PKCS#7 formatted reply or a sequence of X.509 certificates) from the file cert_file, and stores it in the keystore entry identified by alias. If no file is specified, then the certificate or certificate chain is read from stdin.
 
-The keytool command can import X.509 v1, v2, and v3 certificates, and PKCS#7 formatted certificate chains consisting of certificates of that type. The data to be imported must be provided either in binary encoding format or in printable encoding format (also known as Base64 encoding) as defined by the Internet RFC 1421 standard. In the latter case, the encoding must be bounded at the beginning by a string that starts with -----BEGIN, and bounded at the end by a string that starts with -----END.
+The lightkeytool command can import X.509 v1, v2, and v3 certificates, and PKCS#7 formatted certificate chains consisting of certificates of that type. The data to be imported must be provided either in binary encoding format or in printable encoding format (also known as Base64 encoding) as defined by the Internet RFC 1421 standard. In the latter case, the encoding must be bounded at the beginning by a string that starts with -----BEGIN, and bounded at the end by a string that starts with -----END.
 
 You import a certificate for two reasons: To add it to the list of trusted certificates, and to import a certificate reply received from a certificate authority (CA) as the result of submitting a Certificate Signing Request to that CA.
 
-Which type of import is intended is indicated by the value of the -alias option. If the alias does not point to a key entry, then the keytool command assumes you are adding a trusted certificate entry. In this case, the alias should not already exist in the keystore. If the alias does already exist, then the keytool command outputs an error because there is already a trusted certificate for that alias, and does not import the certificate. If the alias points to a key entry, then the keytool command assumes you are importing a certificate reply.`,
+Which type of import is intended is indicated by the value of the -alias option. If the alias does not point to a key entry, then the light command assumes you are adding a trusted certificate entry. In this case, the alias should not already exist in the keystore. If the alias does already exist, then the light command outputs an error because there is already a trusted certificate for that alias, and does not import the certificate. If the alias points to a key entry, then the light command assumes you are importing a certificate reply.`,
 		RunE: importCert,
 	}
 )
