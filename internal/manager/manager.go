@@ -165,3 +165,17 @@ func WriteKeyStorePKCS12(ks keystore.KeyStore, filename string, password []byte)
 	}
 	return err
 }
+
+func CreateCertificate(block []byte) keystore.Certificate {
+	return keystore.Certificate{
+		Type:    "X509",
+		Content: block,
+	}
+}
+
+func CreateTrustedCertificateEntry(time time.Time, block []byte) keystore.TrustedCertificateEntry {
+	return keystore.TrustedCertificateEntry{
+		CreationTime: time,
+		Certificate:  CreateCertificate(block),
+	}
+}
