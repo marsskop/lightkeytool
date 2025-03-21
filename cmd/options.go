@@ -6,6 +6,7 @@ var (
 	storetype     string
 	alias         string
 	storepass     string
+	keypass       string
 	rfc           bool
 	file          string
 	srckeystore   string
